@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.redlinersperformance.com/sitemap.xml
+Sitemap: https://chiptuningnis.com/sitemap.xml
