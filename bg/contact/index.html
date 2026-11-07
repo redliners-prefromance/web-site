@@ -426,14 +426,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&amp;family=Exo+2:wght@500;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
 
   <!-- Tailwind (compiled) -->
-  <link rel="stylesheet" href="../../css/tailwind.css">
+  <link rel="stylesheet" href="../../css/tailwind.css?v=20261107">
 
   <!-- GSAP -->
-  <script src="../../js/vendor/gsap.min.js" defer=""></script>
-  <script src="../../js/vendor/ScrollTrigger.min.js" defer=""></script>
+  <script src="../../js/vendor/gsap.min.js?v=20261107" defer=""></script>
+  <script src="../../js/vendor/ScrollTrigger.min.js?v=20261107" defer=""></script>
   <!-- Three.js for the 3D signal-path section -->
-  <script src="../../js/i18n.js" defer=""></script>
-  <script src="../../js/fx.js" defer=""></script>
+  <script src="../../js/i18n.js?v=20261108" defer=""></script>
+  <script src="../../js/fx.js?v=20261107" defer=""></script>
 
   <style>
     :root { --red: #ff1e3c; --volt: #22d3ee; }
@@ -1354,7 +1354,7 @@
       <!-- Set action to your form endpoint (Formspree, Netlify Forms, PHP mailer, etc.) -->
       <!-- Inquiries are e-mailed to redliners.mms@gmail.com via FormSubmit (formsubmit.co).
            The very first submission sends an "Activate Form" e-mail to that inbox — click it once and every inquiry is delivered. -->
-      <form id="bookingForm" class="mt-6 grid gap-4" action="https://formsubmit.co/ajax/redliners.mms@gmail.com" method="post" novalidate="">
+      <form id="bookingForm" class="mt-6 grid gap-4" action="https://api.web3forms.com/submit" method="post" novalidate="">
         <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden">
         <div class="grid gap-4 sm:grid-cols-2">
           <label class="grid gap-1.5 text-sm"><span class="text-white/60" data-i18n="bk.name" data-en="Name">Име</span><input required="" name="name" class="field rounded-sm px-4 py-3" autocomplete="name"></label>
@@ -1367,7 +1367,7 @@
             <select name="service" id="serviceSelect" class="field rounded-sm px-4 py-3">
               <option value="stage1" data-i18n="opt.stage1" data-en="Stage 1 remap">Stage 1 ремап</option><option value="stage2" data-i18n="opt.stage2" data-en="Stage 2 remap">Stage 2 ремап</option><option value="stage3" data-i18n="opt.stage3" data-en="Stage 3 remap">Stage 3 ремап</option>
               <option value="tcu" data-i18n="opt.tcu" data-en="TCU / gearbox remap">Ремап на TCU / кутия</option><option value="diag" data-i18n="opt.diag" data-en="Diagnostics &amp;amp; log analysis">Диагностика и анализ на логове</option>
-              <option value="emis" data-i18n="opt.emis">DPF / EGR / AdBlue</option><option value="coding" data-i18n="opt.coding" data-en="Coding / Component Protection">Кодиране / Component Protection</option>
+              <option value="emis" data-i18n="opt.emis">DPF / EGR / AdBlue</option><option value="coding" data-i18n="opt.coding" data-en="Coding / Component Protection">Кодиране / Component Protection</option><option value="km" data-i18n="opt.km" data-en="Mileage correction">Корекция на километража</option>
               <option value="truck" data-i18n="opt.truck" data-en="Truck / agricultural machinery">Камион / селскостопанска техника</option><option value="field" data-i18n="opt.field" data-en="Field service (we come to you)">Работа на място (идваме при вас)</option><option value="custom" data-i18n="opt.custom" data-en="Custom project">Проект по поръчка</option>
             </select>
           </label>
@@ -1375,6 +1375,7 @@
         <label class="grid gap-1.5 text-sm"><span class="text-white/60" data-i18n="bk.notes" data-en="Notes">Бележки</span><textarea name="notes" rows="3" class="field rounded-sm px-4 py-3" placeholder="Модификации, цели, предпочитана дата…" data-i18n-attr="placeholder:bk.notes.ph" data-en-a-placeholder="Mods, goals, preferred date…"></textarea></label>
         <p id="formError" class="hidden text-sm text-redline-soft" data-i18n="bk.error" data-en="Please fill in your name, phone and vehicle.">Моля, попълнете име, телефон и автомобил.</p>
         <p id="formFail" class="hidden text-sm text-redline-soft" data-i18n="bk.fail" data-en="We couldn't send your request. Please try again or message us on Viber / WhatsApp.">Заявката не беше изпратена. Опитайте отново или ни пишете във Viber / WhatsApp.</p>
+        <div id="formFallback" class="hidden grid gap-2 rounded-sm border border-white/10 p-3"><p class="text-xs text-white/60" data-i18n="bk.fallback" data-en="Send it directly instead — your details are already filled in:">Изпратете директно — данните ви вече са попълнени:</p><div class="flex flex-wrap gap-2"><a id="fbWa" target="_blank" rel="noopener" class="th-app" style="--c:#25d366">WhatsApp</a><a id="fbViber" class="th-app" style="--c:#7360f2">Viber</a><a id="fbMail" class="th-app" style="--c:#e10600">Email</a></div></div>
         <button type="submit" class="btn-shine mt-2 rounded-sm bg-redline py-4 font-display text-base font-bold uppercase tracking-[.22em] shadow-neon transition hover:bg-redline-soft" data-i18n="bk.send" data-en="Send request">Изпрати заявка</button>
       </form>
     </div>
@@ -1753,12 +1754,13 @@ document.addEventListener('DOMContentLoaded', () => {
   ['pointerleave'].forEach(ev => $('.thanks-panel').addEventListener(ev, () => { thPaused = false; }));
   $$('.th-app').forEach(a => a.addEventListener('click', () => { thPaused = true; }));
 
+  const W3F_KEY = '00920b59-56d6-4ef0-9185-3f764a568b13';
   $('#bookingForm').addEventListener('submit', async e => {
     e.preventDefault();
     const form = e.target, data = new FormData(form);
     const ok = ['name', 'phone', 'vehicle'].every(k => (data.get(k) || '').trim());
     $('#formError').classList.toggle('hidden', ok);
-    $('#formFail').classList.add('hidden');
+    $('#formFail').classList.add('hidden'); $('#formFallback').classList.add('hidden');
     if (!ok) return;
     const ref = makeRef();
     data.append('reference', ref);
@@ -1770,36 +1772,32 @@ document.addEventListener('DOMContentLoaded', () => {
       // With a form endpoint in the form's action attribute (Formspree, PHP mailer…) the request is POSTed;
       // without one, the visitor's e-mail app opens with everything filled in.
       if (form.getAttribute('action')) {
-        // Send to the inbox via FormSubmit. Labels below are what appear in the e-mail.
+        // Send to the inbox via Web3Forms (key is public by design; it only lets this site e-mail redliners.mms@gmail.com)
         const email = (data.get('email') || '').trim();
         const langName = { en: 'English', sr: 'Srpski', bg: 'Български' }[I18N ? I18N.lang : 'en'];
         const payload = {
-          _subject: `🔧 New booking ${ref} — ${info.vehicle} (${info.service})`,
-          _template: 'table',
-          _captcha: 'false',
-          _honey: data.get('_honey') || '',
+          access_key: W3F_KEY,
+          subject: `🔧 New booking ${ref} — ${info.vehicle} (${info.service})`,
+          from_name: 'Redliners website',
+          botcheck: data.get('_honey') || '',
           'Request no.': ref,
           'Name': info.name,
           'Phone': info.phone,
-          email: email || '—',                             // also the address FormSubmit sends the auto-reply to
+          'Email': email || '—',
           'Vehicle': info.vehicle,
           'Service': info.service,
           'Notes': (data.get('notes') || '').trim() || '—',
           'Language': langName,
           'Sent from': location.href.split('#')[0]
         };
-        if (email) {
-          payload._replyto = email;                        // "Reply" in your inbox goes straight to the client
-          payload._autoresponse = fill(T('mail.auto', 'Thank you for your request ({ref}). We have received it and will contact you shortly. — Redliners Performance, +381 63 481 566'), { ref });
-        }
+        if (email) payload.replyto = email;              // "Reply" in your inbox goes straight to the client
         const res = await fetch(form.action, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify(payload)
         });
         const json = await res.json().catch(() => ({}));
-        // FormSubmit answers {"success":"true"}; before the inbox is activated it answers success "false"
-        if (!res.ok || String(json.success) !== 'true') throw new Error(json.message || ('HTTP ' + res.status));
+        if (!res.ok || json.success !== true) throw new Error(json.message || ('HTTP ' + res.status));
       } else {
         const body = [...data.entries()].map(([k, v]) => `${k}: ${v}`).join('\n');
         window.location.href = `mailto:redliners.mms@gmail.com?subject=${encodeURIComponent((I18N ? I18N.t('mail.subject') : 'Remap booking — ') + info.vehicle + ' · ' + ref)}&body=${encodeURIComponent(body)}`;
@@ -1809,6 +1807,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       console.warn('Booking not sent:', err && err.message);
       $('#formFail').classList.remove('hidden');
+      // never lose a booking: offer the same details through WhatsApp / Viber / e-mail
+      const msg = `Booking ${ref}\nName: ${info.name}\nPhone: ${info.phone}\nVehicle: ${info.vehicle}\nService: ${info.service}\nNotes: ${(data.get('notes') || '').trim() || '—'}`;
+      $('#fbWa').href = 'https://wa.me/38163481566?text=' + encodeURIComponent(msg);
+      $('#fbViber').href = 'viber://forward?text=' + encodeURIComponent(msg);
+      $('#fbMail').href = 'mailto:redliners.mms@gmail.com?subject=' + encodeURIComponent('Booking ' + ref + ' — ' + info.vehicle) + '&body=' + encodeURIComponent(msg);
+      $('#formFallback').classList.remove('hidden');
     } finally {
       btn.disabled = false; btn.innerHTML = label;
     }
